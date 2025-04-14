@@ -47,20 +47,61 @@ const sendToLLM = async (texts, language, service, doNotTranslateSet = new Set()
 
     const prompt = `
     Translate the following phrases to ${language}.
-
+    
     ❗IMPORTANT❗
-- Do NOT translate code snippets, technical terms, or placeholders like %s, %d.
-- Do NOT translate acronyms (e.g., SQL, HTTP) or their full forms (e.g., "HyperText Transfer Protocol").
-- Do NOT translate technical terms or any of these words: ${nonTranslatable}.
-- Preserve escape characters like \\n, \\t, \\\" exactly as they are.
-- Do not translate variable names or HTML tags (e.g., <div>, {{variable}}, etc.).
-- For entries like "X - definition", ensure that "X" is translated exactly the same as the corresponding key_title (no synonyms).
-- Keep each translated line in the same order.
-- Only return the translations, line by line, without quotes or explanation.
-
+    Please carefully follow the instructions below to ensure accurate and consistent translation:
+    
+    1. **Technical Terms Preservation**:
+        - Do **NOT** translate any **technical terms** related to programming, software development, data science, and related fields, even if a word is closely related to the technical topic. 
+        - Examples of technical terms that must **NOT** be translated include programming languages, frameworks, paradigms, data structures, algorithms, system components, tools, and technologies commonly used in software development.
+        - Some common categories to keep in mind:
+            - **Programming Languages**: Python, Java, JavaScript, C++, etc.
+            - **Development Concepts**: Object-Oriented Programming (OOP), Functional Programming, Multithreading, API, CRUD (Create, Read, Update, Delete), etc.
+            - **Data Structures**: Lists, Sets, Tuples, Key-Value Pairs, Arrays, Stacks, Queues, etc.
+            - **Technologies & Frameworks**: React, Node.js, Express.js, SQL, MongoDB, etc.
+            - **Data Science & AI Terms**: Machine Learning, Deep Learning, Neural Networks, Supervised Learning, etc.
+            - **Coding Paradigms & Patterns**: MVC (Model-View-Controller), Singleton, Factory, etc.
+            - **Acronyms**: SQL, HTTP, API, URL, JSON, HTML, CSS, JSON, XML, etc.
+        - **Note**: These terms must be kept in their original English form and should **NOT** be translated.
+    
+    2. **Acronyms and Full Forms**:
+        - Do **NOT** translate acronyms or their full forms. For example:
+            - **Acronyms**: SQL, HTTP, JSON, API, URL, etc.
+            - **Full Forms**: HyperText Transfer Protocol (HTTP), Structured Query Language (SQL), etc.
+        - Keep these terms intact, regardless of context.
+    
+    3. **Contextual Understanding of Topics**:
+        - The content being translated comes from a variety of **technical learning materials** related to software development, programming, and data science. Below are the key topics you should consider while translating:
+            - **Programming Basics**: Introduction to programming, data types, control structures (loops, conditionals), variables, functions, etc.
+            - **Advanced Programming Concepts**: Object-Oriented Programming (OOP), inheritance, polymorphism, abstraction, etc.
+            - **Software Engineering Practices**: Functions, error handling, debugging, file operations, etc.
+            - **Databases & Web Development**: SQL, API integration, database connectivity, CRUD operations, server-side scripting, etc.
+            - **Practical Applications & Projects**: Application development such as Supermarket Cashier, Employee CRUD App, Library Management App.
+            - **Data Structures & Algorithms**: Lists, Sets, Arrays, Tuples, algorithms like merge sort, quicksort, etc.
+            - **Machine Learning & Data Science**: Data processing, data analytics, AI models, neural networks, data visualization.
+            - **Math & Science in Programming**: Mathematical concepts like algebra, functions, linear algebra, etc., used in Python programming and data science.
+            - **User Interface & Frontend Development**: GUI (Graphical User Interface), frontend technologies like React, HTML, CSS, etc.
+    
+    4. **General Translation Guidelines**:
+        - **Do NOT translate placeholders** like %s, %d, {variable}, or anything that represents dynamic content in code.
+        - **Do NOT translate code snippets**: If there’s any code (e.g., functions, variable names, etc.), leave it as is.
+        - **Do NOT translate any programming-related jargon**, such as 'debug', 'compile', 'runtime', 'syntax', etc.
+        - **Do NOT translate any text inside angle brackets** (e.g., HTML tags, JSON keys like <div>, {{variable}}, etc.).
+        - If you encounter phrases like "X - definition", **ensure that "X" is translated exactly the same** as the corresponding key_title (no synonyms). For example, "Object-Oriented Programming" should remain exactly the same in the translation.
+        - **Preserve formatting** like escape characters (\\n, \\t, \\\"), as well as variable names and HTML tags, exactly as they are.
+        - **Do not change the order of the translated lines**. Keep each translated line in the same order as in the input.
+    
+    5. **Translation Style**:
+        - Focus on providing **natural-sounding translations** for the text, ensuring the meaning of the original text is accurately conveyed in the target language.
+        - Maintain **technical accuracy** in the translations, particularly when dealing with specialized terms. If you’re unsure whether to translate a specific term, refer to the guidelines above and err on the side of caution by leaving technical terms unchanged.
+    
+    Additional non-translatable words or phrases: ${nonTranslatable}
+    
+    Only return the translations, line by line, without quotes or any additional explanation.
+    
     Phrases:
     ${texts.map(text => `- ${text}`).join('\n')}
-        `;
+    `;
 
     console.log("🟡 Prompt:", prompt);
 
